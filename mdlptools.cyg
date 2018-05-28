@@ -13,10 +13,11 @@ Github repository: https://github.com/marcodelapierre/MDLPtools
 
 EOF
 
-MAALI_TOOL_COMPILERS="$MAALI_DEFAULT_COMPILERS"
+#MAALI_TOOL_COMPILERS="$MAALI_DEFAULT_COMPILERS"
+MAALI_TOOL_COMPILERS="gcc/4.8.5 gcc/5.5.0 gcc/7.2.0"
 MAALI_TOOL_CPU_TARGET="$MAALI_DEFAULT_TOOL_CPU_TARGET"
-
-MAALI_URL="https://github.com/marcodelapierre/$MAALI_TOOL_NAME/archive/$MAALI_TOOL_VERSION.tar.gz"
+https://github.com/marcodelapierre/MDLPtools/archive/v1.0.tar.gz
+MAALI_URL="https://github.com/marcodelapierre/MDLPtools/archive/v$MAALI_TOOL_VERSION.tar.gz"
 MAALI_DST="$MAALI_SRC/$MAALI_TOOL_NAME-$MAALI_TOOL_VERSION.tar.gz"
 
 MAALI_TOOL_BUILD_DIR="$MAALI_BUILD_DIR/$MAALI_TOOL_NAME-$MAALI_TOOL_VERSION"
@@ -32,9 +33,9 @@ function maali_build {
 
 cd "$MAALI_TOOL_BUILD_DIR"
 
-$CC -O2 -fopenmp -o omp omp_hello.c
-mpicc -O2 -o mpi -o mpi mpi_hello.c
-mpicc -O -fopenmp -o hyb hybrid_mpi_omp_hello.c
+maali_run "$CC -O2 -fopenmp -o omp omp_hello.c"
+maali_run "mpicc -O2 -o mpi -o mpi mpi_hello.c"
+maali_run "mpicc -O -fopenmp -o hyb hybrid_mpi_omp_hello.c"
 
 MAALI_INSTALL_FILES="omp mpi hyb"
 maali_makedir "$MAALI_INSTALL_DIR/bin"
