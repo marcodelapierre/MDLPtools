@@ -1,5 +1,5 @@
 ##############################################################################
-# maali cygnet file for ffmpeg 
+# maali cygnet file for mdlptools
 ##############################################################################
 
 read -r -d '' MAALI_MODULE_WHATIS << EOF
@@ -13,8 +13,7 @@ Github repository: https://github.com/marcodelapierre/mdlptools
 
 EOF
 
-#MAALI_TOOL_COMPILERS="$MAALI_DEFAULT_COMPILERS"
-MAALI_TOOL_COMPILERS="gcc/4.8.5 gcc/5.5.0 gcc/7.2.0"
+MAALI_TOOL_COMPILERS="$MAALI_DEFAULT_COMPILERS"
 MAALI_TOOL_CPU_TARGET="$MAALI_DEFAULT_TOOL_CPU_TARGET"
 MAALI_TOOL_MPI_COMPILERS="openmpi/2.1.2 intel-mpi/2017.0.4"
 
@@ -33,9 +32,24 @@ function maali_build {
 
 cd "$MAALI_TOOL_BUILD_DIR"
 
-maali_run "$CC -O2 -fopenmp -o omp omp_hello.c"
-maali_run "mpicc -O2 -o mpi -o mpi mpi_hello.c"
-maali_run "mpicc -O -fopenmp -o hyb hybrid_mpi_omp_hello.c"
+MPICC=mpicc
+MPICXX=mpicxx
+MPIF90=mpif90
+if [ "$MPI_NAME" == "intel-mpi" ] && [ "$COMPILER" == "intel" ] ; then
+  MPICC=mpiicc
+  MPICXX=mpiicpc
+  MPIF90=mpiifort
+fi
+
+if [ "$COMPILER" == "intel" ] ; then
+  OMP="-qopenmp"
+elif [ "$COMPILER" == "gcc" ] ; then
+  OMP="-fopenmp"
+fi
+
+maali_run "$CC -O2 $OMP -o omp omp_hello.c"
+maali_run "$MPICC -O2 -o mpi -o mpi mpi_hello.c"
+maali_run "$MPICC -O2 $OMP -o hyb hybrid_mpi_omp_hello.c"
 
 MAALI_INSTALL_FILES="omp mpi hyb"
 maali_makedir "$MAALI_INSTALL_DIR/bin"

@@ -1,5 +1,5 @@
 ##############################################################################
-# maali cygnet file for ffmpeg 
+# maali cygnet file for mdlptools
 ##############################################################################
 
 read -r -d '' MAALI_MODULE_WHATIS << EOF
@@ -31,9 +31,19 @@ function maali_build {
 
 cd "$MAALI_TOOL_BUILD_DIR"
 
-maali_run "$CC -O2 -fopenmp -o omp omp_hello.c"
-maali_run "mpicc -O2 -o mpi -o mpi mpi_hello.c"
-maali_run "mpicc -O -fopenmp -o hyb hybrid_mpi_omp_hello.c"
+MPICC=mpicc
+MPICXX=mpicxx
+MPIF90=mpif90
+
+if [ "$COMPILER" == "intel" ] ; then
+  OMP="-qopenmp"
+elif [ "$COMPILER" == "gcc" ] ; then
+  OMP="-fopenmp"
+fi
+
+maali_run "$CC -O2 $OMP -o omp omp_hello.c"
+maali_run "$MPICC -O2 -o mpi -o mpi mpi_hello.c"
+maali_run "$MPICC -O2 $OMP -o hyb hybrid_mpi_omp_hello.c"
 
 MAALI_INSTALL_FILES="omp mpi hyb"
 maali_makedir "$MAALI_INSTALL_DIR/bin"
