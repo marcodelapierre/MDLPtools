@@ -1,15 +1,15 @@
 ##############################################################################
-# maali cygnet file for mdlptools
+# maali cygnet file for dummytools
 ##############################################################################
 
 read -r -d '' MAALI_MODULE_WHATIS << EOF
 
-mdlptools
+dummytools
 
 This is just a set of small pieces of code, 
 designed to hopefully quickly check things on machines I use.
 
-Github repository: https://github.com/marcodelapierre/mdlptools
+Github repository: https://github.com/marcodelapierre/dummytools
 
 EOF
 
@@ -17,9 +17,9 @@ MAALI_TOOL_COMPILERS="$MAALI_DEFAULT_COMPILERS"
 MAALI_TOOL_CPU_TARGET="$MAALI_DEFAULT_TOOL_CPU_TARGET"
 MAALI_TOOL_MPI_COMPILERS="openmpi/2.1.2 intel-mpi/2017.0.4"
 
-MAALI_URL="https://github.com/marcodelapierre/mdlptools/archive/$MAALI_TOOL_VERSION.tar.gz"
+MAALI_URL="https://github.com/marcodelapierre/dummytools/archive/$MAALI_TOOL_VERSION.tar.gz"
 MAALI_DST="$MAALI_SRC/$MAALI_TOOL_NAME-$MAALI_TOOL_VERSION.tar.gz"
-MAALI_TOOL_BUILD_DIR="$MAALI_BUILD_DIR/mdlptools-$MAALI_TOOL_VERSION"
+MAALI_TOOL_BUILD_DIR="$MAALI_BUILD_DIR/dummytools-$MAALI_TOOL_VERSION"
 
 MAALI_TOOL_PREREQ=""
 
@@ -54,7 +54,7 @@ maali_run "$MPICC -O2 $OMP -o hyb hybrid_mpi_omp_hello.c"
 MAALI_INSTALL_FILES="omp mpi hyb"
 maali_makedir "$MAALI_INSTALL_DIR/bin"
 for file in $MAALI_INSTALL_FILES ; do
-  maali_run "install -m 755 ${file} $MAALI_INSTALL_DIR/bin/mdlp-${file}"
+  maali_run "install -m 755 ${file} $MAALI_INSTALL_DIR/bin/dummy-${file}"
 done
 
 }

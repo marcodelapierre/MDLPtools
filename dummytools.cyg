@@ -1,15 +1,15 @@
 ##############################################################################
-# maali cygnet file for mdlptools
+# maali cygnet file for dummytools
 ##############################################################################
 
 read -r -d '' MAALI_MODULE_WHATIS << EOF
 
-mdlptools
+dummytools
 
 This is just a set of small pieces of code, 
 designed to hopefully quickly check things on machines I use.
 
-Github repository: https://github.com/marcodelapierre/mdlptools
+Github repository: https://github.com/marcodelapierre/dummytools
 
 EOF
 
@@ -48,7 +48,7 @@ maali_run "$MPICC -O2 $OMP -o hyb hybrid_mpi_omp_hello.c"
 MAALI_INSTALL_FILES="omp mpi hyb"
 maali_makedir "$MAALI_INSTALL_DIR/bin"
 for file in $MAALI_INSTALL_FILES ; do
-  maali_run "install -m 755 ${file} $MAALI_INSTALL_DIR/bin/mdlp-${file}"
+  maali_run "install -m 755 ${file} $MAALI_INSTALL_DIR/bin/dummy-${file}"
 done
 
 }
