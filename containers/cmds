@@ -1,0 +1,11 @@
+docker build -t my-dummy .
+
+
+#interactive
+docker run --rm -it  -v/Users/del170/devel/containers/dummy/play:/data  my-dummy
+#inside container :  
+test.sh sample.in out1
+
+
+#batch
+docker run --rm  -v/Users/del170/devel/containers/dummy/play:/data  my-dummy test.sh sample.in out2
