@@ -1,0 +1,45 @@
+##############################################################################
+# maali cygnet file for dummytools-cuda
+##############################################################################
+
+read -r -d '' MAALI_MODULE_WHATIS << EOF
+
+dummytools-cuda
+
+This is just a set of small pieces of code, 
+designed to hopefully quickly check things on machines I use.
+
+Github repository: https://github.com/marcodelapierre/dummytools
+
+EOF
+
+MAALI_TOOL_COMPILERS="$MAALI_DEFAULT_COMPILERS"
+MAALI_TOOL_CPU_TARGET="$MAALI_DEFAULT_CPU_TARGET"
+MAALI_TOOL_CUDA_COMPILERS="$MAALI_DEFAULT_CUDA_COMPILERS"
+MAALI_CUDA_BUILD="1"
+
+MAALI_URL="https://github.com/marcodelapierre/dummytools/archive/$MAALI_TOOL_VERSION.tar.gz"
+MAALI_DST="$MAALI_SRC/$MAALI_TOOL_NAME-$MAALI_TOOL_VERSION.tar.gz"
+MAALI_TOOL_BUILD_DIR="$MAALI_BUILD_DIR/dummytools-$MAALI_TOOL_VERSION"
+
+MAALI_TOOL_PREREQ="cuda"
+
+MAALI_TOOL_TYPE="tools"
+
+MAALI_MODULE_SET_PATH=1
+##############################################################################
+
+function maali_build {
+
+cd "$MAALI_TOOL_BUILD_DIR"/cuda
+
+MAALI_INSTALL_FILES="hello malloc malloc_managed"
+maali_makedir "$MAALI_INSTALL_DIR/bin"
+for file in $MAALI_INSTALL_FILES ; do
+  maali_run "nvcc -o ${file} ${file}.cu"
+  maali_run "install -m 755 ${file} $MAALI_INSTALL_DIR/bin/dummy-${file}"
+done
+
+}
+
+##############################################################################
