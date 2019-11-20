@@ -1,10 +1,10 @@
 ##############################################################################
-# maali cygnet file for dummytools-mpi
+# maali cygnet file for dummytools-cray
 ##############################################################################
 
 read -r -d '' MAALI_MODULE_WHATIS << EOF
 
-dummytools-mpi
+dummytools–cray
 
 This is just a set of small pieces of code, 
 designed to hopefully quickly check things on machines I use.
@@ -13,15 +13,15 @@ Github repository: https://github.com/marcodelapierre/dummytools
 
 EOF
 
+MAALI_TOOL_CRAY_PRGENV="$MAALI_DEFAULT_CRAY_PRGENVS"
 MAALI_TOOL_COMPILERS="$MAALI_DEFAULT_COMPILERS"
 MAALI_TOOL_CPU_TARGET="$MAALI_DEFAULT_CPU_TARGET"
-MAALI_TOOL_MPI_COMPILERS="openmpi intel-mpi"
 
 MAALI_URL="https://github.com/marcodelapierre/dummytools/archive/$MAALI_TOOL_VERSION.tar.gz"
 MAALI_DST="$MAALI_SRC/$MAALI_TOOL_NAME-$MAALI_TOOL_VERSION.tar.gz"
 MAALI_TOOL_BUILD_DIR="$MAALI_BUILD_DIR/dummytools-$MAALI_TOOL_VERSION"
 
-MAALI_TOOL_PREREQ=""
+MAALI_TOOL_PREREQ="cray-mpich"
 
 MAALI_TOOL_TYPE="tools"
 
@@ -32,22 +32,19 @@ function maali_build {
 
 cd "$MAALI_TOOL_BUILD_DIR"/parallel
 
-MPICC=mpicc
-MPICXX=mpicxx
-MPIF90=mpif90
-if [ "$MPI_NAME" == "intel-mpi" ] && [ "$COMPILER" == "intel" ] ; then
-  MPICC=mpiicc
-  MPICXX=mpiicpc
-  MPIF90=mpiifort
-fi
+MPICC=cc
+MPICXX=CC
+MPIF90=ftn
 
-if [ "$COMPILER" == "intel" ] ; then
+if [[ "$MAALI_COMPILER_NAME" == "intel"* ]] ; then
   OMP="-qopenmp"
-elif [ "$COMPILER" == "gcc" ] ; then
+elif [[ "$MAALI_COMPILER_NAME" == "gcc"* ]] ; then
   OMP="-fopenmp"
+else
+  OMP=""
 fi
 
-maali_run "$CC -O2 $OMP -o omp omp_hello.c"
+maali_run "$MPICC -O2 $OMP -o omp omp_hello.c"
 maali_run "$MPICC -O2 -o mpi mpi_hello.c"
 maali_run "$MPICC -O2 $OMP -o hyb hybrid_mpi_omp_hello.c"
 

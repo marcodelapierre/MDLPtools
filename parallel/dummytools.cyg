@@ -42,7 +42,7 @@ elif [ "$COMPILER" == "gcc" ] ; then
 fi
 
 maali_run "$CC -O2 $OMP -o omp omp_hello.c"
-maali_run "$MPICC -O2 -o mpi -o mpi mpi_hello.c"
+maali_run "$MPICC -O2 -o mpi mpi_hello.c"
 maali_run "$MPICC -O2 $OMP -o hyb hybrid_mpi_omp_hello.c"
 
 MAALI_INSTALL_FILES="omp mpi hyb"
