@@ -1,10 +1,10 @@
 ##############################################################################
-# maali cygnet file for dummytools
+# maali cygnet file for dummytools-mpi
 ##############################################################################
 
 read -r -d '' MAALI_MODULE_WHATIS << EOF
 
-dummytools
+dummytools-mpi
 
 This is just a set of small pieces of code, 
 designed to hopefully quickly check things on machines I use.
@@ -14,8 +14,8 @@ Github repository: https://github.com/marcodelapierre/dummytools
 EOF
 
 MAALI_TOOL_COMPILERS="$MAALI_DEFAULT_COMPILERS"
-MAALI_TOOL_CPU_TARGET="$MAALI_DEFAULT_TOOL_CPU_TARGET"
-MAALI_TOOL_MPI_COMPILERS="openmpi/2.1.2 intel-mpi/2017.0.4"
+MAALI_TOOL_CPU_TARGET="$MAALI_DEFAULT_CPU_TARGET"
+MAALI_TOOL_MPI_COMPILERS="openmpi intel-mpi"
 
 MAALI_URL="https://github.com/marcodelapierre/dummytools/archive/$MAALI_TOOL_VERSION.tar.gz"
 MAALI_DST="$MAALI_SRC/$MAALI_TOOL_NAME-$MAALI_TOOL_VERSION.tar.gz"
